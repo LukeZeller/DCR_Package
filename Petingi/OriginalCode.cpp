@@ -46,7 +46,7 @@ public:
 		 counter2 = 0;
 		 ifstream infile;
 		 //ofstream outfile;
-		 infile.open("swing-10-17.txt");
+		 infile.open("graph.in");
 		 //outfile.open("C:/documents and settings/louis/desktop/dcrexact/NSFREL14.txt");
          nodes=n; edges = e;diameter=d;
          List=new edge[e];
