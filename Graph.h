@@ -10,8 +10,11 @@
 #define _GRAPH_H
 
 static struct Edge {
-    int u, v;
+    int v0, v1;
     bool isUP;
+
+    int other(int v);
+    
 };
 
 class Graph {
@@ -26,8 +29,7 @@ public:
     Graph(int nodes, int numTerminals; std::vector<int> terminals,
           std::vector< std::pair<int, int> > edgeList);
 
-    
-    int getDiameter();
+    int getDiameter(int level = edges.size());
     int getNodes();
     int getEdges();
     bool isUP(int edgeID);

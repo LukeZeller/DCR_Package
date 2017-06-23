@@ -9,6 +9,8 @@
 
 #include <iostream>
 #include <fstream>
+#include "Graph.h"
+#include "Backtracker.h"
 
 using namespace std;
 
