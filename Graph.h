@@ -9,12 +9,15 @@
 #ifndef _GRAPH_H
 #define _GRAPH_H
 
-static struct Edge {
+#include <vector>
+#include <utility>
+
+struct Edge {
     int v0, v1;
     bool isUP;
 
-    int other(int v);
-    
+    Edge(int v0, int v1);
+    int other(int v);    
 };
 
 class Graph {
@@ -22,14 +25,16 @@ private:
     int N, K;
     std::vector<int> terminals;
     std::vector<Edge> edges;
-    std::vector< std::vector<int> > adjList;
+    std::vector< std::vector<int> > incidentIDList;
     
 public:
 
-    Graph(int nodes, int numTerminals; std::vector<int> terminals,
+    Graph(int nodes, int numTerminals, std::vector<int> terminals,
           std::vector< std::pair<int, int> > edgeList);
 
-    int getDiameter(int level = edges.size());
+    int getDiameter();
+    int getDiameter(int level);
+    
     int getNodes();
     int getEdges();
     bool isUP(int edgeID);

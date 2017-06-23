@@ -6,7 +6,13 @@
    in Graph.h
 */
 
+#include <queue>
 #include "Graph.h"
+
+Edge::Edge(int v0, int v1)
+    : v0(v0)
+    , v1(v1)
+    , isUP(true) {}
 
 int Edge::other(int v) {
     if (v == v0)
@@ -16,7 +22,7 @@ int Edge::other(int v) {
     return -1;
 }
 
-Graph::Graph(int nodes, int numTerminals, vector<int> terminals,
+Graph::Graph(int nodes, int numTerminals, std::vector<int> terminals,
              std::vector< std::pair<int, int> > edgeList)
     : N(nodes)
     , K(numTerminals)
@@ -25,30 +31,41 @@ Graph::Graph(int nodes, int numTerminals, vector<int> terminals,
     , incidentIDList(edgeList.size())
 {
     for (int i = 0; i < edgeList.size(); i++) {
-        edges.emplace_back(edgeList[i].first, edgeList[i].second, true);
-        incidentIDList[e.first].push_back(i);
-        incidentIDList[e.second].push_back(i);
+        edges.emplace_back(edgeList[i].first, edgeList[i].second);
+        incidentIDList[edgeList[i].first].push_back(i);
+        incidentIDList[edgeList[i].second].push_back(i);
     }
 }
 
-int Graph::getDiameter(int level = edges.size())
+int Graph::getDiameter()
 {
-    int **dist = new int[K][N](0);
+    return getDiameter(edges.size());
+}
+
+int Graph::getDiameter(int level)
+{
+    std::vector< std::vector<int> > dist(K, std::vector<int>(N));
 
     for (int t_i = 0; t_i < K; t_i++) {
         int root = terminals[t_i];
+
         bool visited[N] = {false};
         visited[root] = true;
         int nVisited = 1;
-        std::queue<int> queue = {root};
- 
-        while (queue.size()) {
-            int u = queue.pop_front();
-            for (int ID : adjList[u]) {
-                int v = edgeList[ID].other(u);
-                if (ID < level && !visited[v])  {
+        
+        std::queue<int> q;
+        q.push(root);
+        
+        while (q.size()) {
+            int u = q.front();
+            q.pop();
+            for (int ID : incidentIDList[u]) {
+                if (ID >= level || !edges[ID].isUP)
+                    continue;
+                int v = edges[ID].other(u);
+                if (!visited[v])  {
                     dist[t_i][v] = dist[t_i][u] + 1;
-                    queue.push_back(v);
+                    q.push(v);
                     visited[v] = true;
                     nVisited += 1;
                 }
@@ -61,7 +78,7 @@ int Graph::getDiameter(int level = edges.size())
     int d = 0;
     for (int i = 0; i < K; i++)
         for (int j = 0; j < K; j++) {
-            dNew = dist[i][terminals[j]];
+            int dNew = dist[i][terminals[j]];
             d = dNew > d ? dNew : d;
         }
     return d;
@@ -79,10 +96,10 @@ int Graph::getEdges()
 
 bool Graph::isUP(int edgeID)
 {
-    return edges[edgeNum].isUP;
+    return edges[edgeID].isUP;
 }
 
 void Graph::setState(int edgeID, bool isUP)
 {
-    edges[edgeNum].isUP = isUP;
+    edges[edgeID].isUP = isUP;
 }

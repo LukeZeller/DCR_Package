@@ -6,51 +6,61 @@
    backtrack.h
 */
 
+#include <iostream>
 #include "Backtracker.h"
 
 Backtracker::Backtracker(Graph &G, int level)
     : G(G)
     , baseDiam(G.getDiameter())
     , level(level)
-    , hasExecuted(false)
-{
-    data = new int[G.getNodes() - baseDiam][G.getEdges() + 1]();
-}
+    , data(G.getNodes() - baseDiam, std::vector<int>(G.getEdges() + 1))
+    , hasExecuted(false) {}
 
 void Backtracker::recurse(int currLevel)
 {
+
+    std::cout << "Recursion at level " << currLevel << std::endl;
+    
     //TODO
     //int dBase = G.getDiameter(currLevel);
     
     int d = G.getDiameter();
 
+    std::cout << "In this state graph has diameter " << d << std::endl;
+    
     if (d == -1)
         return;
 
-    if (currLevel == 0 || !G.getState(currLevel - 1))
-        data[d - baseDiam - 1][currLevel]++;
     
-    G.setState(currLevel, false);
-    recurse(currLevel + 1);
+    
+    if (currLevel == 0 || !G.isUP(currLevel - 1))
+        data[d - baseDiam][currLevel]++;
 
-    G.setState(currLevel, true);
-    recurse(currLevel + 1)
+    if (currLevel < G.getEdges()) {
+        G.setState(currLevel, false);
+        recurse(currLevel + 1);
+
+        G.setState(currLevel, true);
+        recurse(currLevel + 1);
+    }
 }
 
 void Backtracker::execute()
 {
     if (!hasExecuted) {
         hasExecuted = true;
+        std::cout << "Execution begun" << std::endl;
         recurse(level);
     }
+}
 
-int **Backtracker::getCoefficients()
+std::vector< std::vector<int> > Backtracker::getCoefficients()
 {
     int N = G.getNodes(), E = G.getEdges();
-    int **coeff = new int[N - 1][E + 1](0);
+    std::vector< std::vector<int> > coeff(N, std::vector<int>(E + 1));
 
     for (int e = 0; e < E + 1; e++)
-        coeffMat[N - 1][e] = dataMat[N - baseDiam - 1][e];
+        coeff[N - 1][e] = data[N - baseDiam - 1][e];
 
     for (int d = N - 2; d > N - baseDiam; d++)
         for (int e = 0; e < E + 1; e++)

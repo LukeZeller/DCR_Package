@@ -18,7 +18,7 @@ class Backtracker {
     Graph& G;
     int baseDiam;
     int level;
-    int **data;
+    std::vector< std::vector<int> > data;
     bool hasExecuted;
     
     void recurse(int level);
@@ -27,9 +27,9 @@ public:
 
     Backtracker(Graph& G, int level);
 
-    void evecute();
-    int **getCoefficients();
+    void execute();
+    std::vector< std::vector<int> > getCoefficients();
     
-}
+};
 
 #endif
