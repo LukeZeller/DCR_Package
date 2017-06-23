@@ -18,24 +18,17 @@ Backtracker::Backtracker(Graph &G, int level)
 
 void Backtracker::recurse(int currLevel)
 {
-
-    std::cout << "Recursion at level " << currLevel << std::endl;
-    
     //TODO
     //int dBase = G.getDiameter(currLevel);
     
     int d = G.getDiameter();
-
-    std::cout << "In this state graph has diameter " << d << std::endl;
     
     if (d == -1)
         return;
-
-    
     
     if (currLevel == 0 || !G.isUP(currLevel - 1))
-        data[d - baseDiam][currLevel]++;
-
+        data[d - baseDiam][G.getNumUP()]++;
+    
     if (currLevel < G.getEdges()) {
         G.setState(currLevel, false);
         recurse(currLevel + 1);
@@ -60,11 +53,11 @@ std::vector< std::vector<int> > Backtracker::getCoefficients()
     std::vector< std::vector<int> > coeff(N, std::vector<int>(E + 1));
 
     for (int e = 0; e < E + 1; e++)
-        coeff[N - 1][e] = data[N - baseDiam - 1][e];
+        coeff[baseDiam][e] = data[0][e];
 
-    for (int d = N - 2; d > N - baseDiam; d++)
+    for (int d = baseDiam + 1; d < N; d++)
         for (int e = 0; e < E + 1; e++)
-            coeff[d][e] = coeff[d + 1][e] + data[d - baseDiam][e];
+            coeff[d][e] = coeff[d - 1][e] + data[d - baseDiam][e];
 
     return coeff;
 }

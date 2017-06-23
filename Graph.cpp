@@ -51,7 +51,6 @@ int Graph::getDiameter(int level)
 
         bool visited[N] = {false};
         visited[root] = true;
-        int nVisited = 1;
         
         std::queue<int> q;
         q.push(root);
@@ -67,12 +66,12 @@ int Graph::getDiameter(int level)
                     dist[t_i][v] = dist[t_i][u] + 1;
                     q.push(v);
                     visited[v] = true;
-                    nVisited += 1;
                 }
             }
         }
-        if (nVisited < N)
-            return -1;
+        for (int v : terminals)
+            if (!visited[v])
+                return -1;
     }
     
     int d = 0;
@@ -94,6 +93,14 @@ int Graph::getEdges()
     return edges.size();
 }
 
+int Graph::getNumUP()
+{
+    int c = 0;
+    for (Edge e: edges)
+        if (e.isUP)
+            c++;
+    return c;
+}
 bool Graph::isUP(int edgeID)
 {
     return edges[edgeID].isUP;

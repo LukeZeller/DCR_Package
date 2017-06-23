@@ -38,6 +38,7 @@ public:
     int getNodes();
     int getEdges();
     bool isUP(int edgeID);
+    int getNumUP();
     void setState(int edgeID, bool isUP);
 
 };

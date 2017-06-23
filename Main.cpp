@@ -9,6 +9,7 @@
 
 #include <iostream>
 //#include <fstream>
+#include <cstdlib>
 #include <vector>
 #include <utility>
 #include "Graph.h"
@@ -27,7 +28,7 @@ int main()
 
     for (int i = 0; i <= 6; i++)
         cout << g.getDiameter(i) << endl;
-
+    
     Backtracker bt(g, 0);
     bt.execute();
     cout << "Finished" << endl;
