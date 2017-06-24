@@ -3,9 +3,8 @@
    @author Luke Zeller
 
 
-   Declaration and documentation of functions related
-   to the backtracking procedure for the calculation of
-   reliability polynomials.
+   Declaration and documentation of Backtracker object
+   for the calculation of reliability polynomials.
 */
 
 #ifndef _BACKTRACK_H

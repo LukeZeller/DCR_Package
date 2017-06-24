@@ -41,9 +41,17 @@ int main(int argc, char **argv)
         cout << endl;
     }
 */
-    Graph g2(5, 2, terminals, edges);
+    Graph g(5, 2, terminals, edges);
 
-    mpi_exec(argc, argv, g2, 0);
-    
+    MPIHandler mh(argc, argv, g);
+    mh.execute();
+    auto coeff = mh.get_coefficients();
+    if (mh.is_root())
+        for (int d = 0; d < coeff.size(); d++) {
+            for (int e = 0; e <= g.get_edges(); e++)
+                cout << coeff[d][e] << " ";
+            cout << endl;
+        }
+
     return 0;
 }
