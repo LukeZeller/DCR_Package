@@ -14,7 +14,7 @@
 
 struct Edge {
     int v0, v1;
-    bool isUP;
+    bool is_up;
 
     Edge(int v0, int v1);
     int other(int v);    
@@ -22,24 +22,24 @@ struct Edge {
 
 class Graph {
 private:
-    int N, K;
-    std::vector<int> terminals;
-    std::vector<Edge> edges;
-    std::vector< std::vector<int> > incidentIDList;
+    int N_, K_;
+    std::vector<int> terminals_;
+    std::vector<Edge> edges_;
+    std::vector< std::vector<int> > incident_id_list_;
     
 public:
 
-    Graph(int nodes, int numTerminals, std::vector<int> terminals,
-          std::vector< std::pair<int, int> > edgeList);
+    Graph(int nodes, int num_terminals, std::vector<int> terminals,
+          std::vector< std::pair<int, int> > edge_list);
 
-    int getDiameter();
-    int getDiameter(int level);
+    int get_diameter();
+    int get_diameter(int level);
     
-    int getNodes();
-    int getEdges();
-    bool isUP(int edgeID);
-    int getNumUP();
-    void setState(int edgeID, bool isUP);
+    int get_nodes();
+    int get_edges();
+    bool is_up(int edge_id);
+    int get_num_up();
+    void set_state(int edge_id, bool is_up);
 
 };
 

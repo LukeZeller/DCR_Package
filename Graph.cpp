@@ -6,13 +6,14 @@
    in Graph.h
 */
 
+#include <algorithm>
 #include <queue>
 #include "Graph.h"
 
 Edge::Edge(int v0, int v1)
     : v0(v0)
     , v1(v1)
-    , isUP(true) {}
+    , is_up(true) {}
 
 int Edge::other(int v) {
     if (v == v0)
@@ -22,34 +23,34 @@ int Edge::other(int v) {
     return -1;
 }
 
-Graph::Graph(int nodes, int numTerminals, std::vector<int> terminals,
-             std::vector< std::pair<int, int> > edgeList)
-    : N(nodes)
-    , K(numTerminals)
-    , terminals(terminals)
-    , edges()
-    , incidentIDList(edgeList.size())
+Graph::Graph(int nodes, int num_terminals, std::vector<int> terminals,
+             std::vector< std::pair<int, int> > edge_list)
+    : N_(nodes)
+    , K_(num_terminals)
+    , terminals_(terminals)
+    , edges_()
+    , incident_id_list_(edge_list.size())
 {
-    for (int i = 0; i < edgeList.size(); i++) {
-        edges.emplace_back(edgeList[i].first, edgeList[i].second);
-        incidentIDList[edgeList[i].first].push_back(i);
-        incidentIDList[edgeList[i].second].push_back(i);
+    for (int i = 0; i < edge_list.size(); i++) {
+        edges_.emplace_back(edge_list[i].first, edge_list[i].second);
+        incident_id_list_[edge_list[i].first].push_back(i);
+        incident_id_list_[edge_list[i].second].push_back(i);
     }
 }
 
-int Graph::getDiameter()
+int Graph::get_diameter()
 {
-    return getDiameter(edges.size());
+    return get_diameter(edges_.size());
 }
 
-int Graph::getDiameter(int level)
+int Graph::get_diameter(int level)
 {
-    std::vector< std::vector<int> > dist(K, std::vector<int>(N));
+    std::vector< std::vector<int> > dist(K_, std::vector<int>(N_));
 
-    for (int t_i = 0; t_i < K; t_i++) {
-        int root = terminals[t_i];
+    for (int t_i = 0; t_i < K_; t_i++) {
+        int root = terminals_[t_i];
 
-        bool visited[N] = {false};
+        bool visited[N_] = {false};
         visited[root] = true;
         
         std::queue<int> q;
@@ -58,10 +59,10 @@ int Graph::getDiameter(int level)
         while (q.size()) {
             int u = q.front();
             q.pop();
-            for (int ID : incidentIDList[u]) {
-                if (ID >= level || !edges[ID].isUP)
+            for (int id : incident_id_list_[u]) {
+                if (id >= level || !edges_[id].is_up)
                     continue;
-                int v = edges[ID].other(u);
+                int v = edges_[id].other(u);
                 if (!visited[v])  {
                     dist[t_i][v] = dist[t_i][u] + 1;
                     q.push(v);
@@ -69,44 +70,43 @@ int Graph::getDiameter(int level)
                 }
             }
         }
-        for (int v : terminals)
+        for (int v : terminals_)
             if (!visited[v])
                 return -1;
     }
     
     int d = 0;
-    for (int i = 0; i < K; i++)
-        for (int j = 0; j < K; j++) {
-            int dNew = dist[i][terminals[j]];
-            d = dNew > d ? dNew : d;
-        }
+    for (int i = 0; i < K_; i++)
+        for (int j = 0; j < K_; j++)
+            d = std::max(dist[i][terminals_[j]], d);
     return d;
 }
 
-int Graph::getNodes()
+int Graph::get_nodes()
 {
-    return N;
+    return N_;
 }
 
-int Graph::getEdges()
+int Graph::get_edges()
 {
-    return edges.size();
+    return edges_.size();
 }
 
-int Graph::getNumUP()
+int Graph::get_num_up()
 {
     int c = 0;
-    for (Edge e: edges)
-        if (e.isUP)
+    for (Edge e: edges_)
+        if (e.is_up)
             c++;
     return c;
 }
-bool Graph::isUP(int edgeID)
+
+bool Graph::is_up(int edge_id)
 {
-    return edges[edgeID].isUP;
+    return edges_[edge_id].is_up;
 }
 
-void Graph::setState(int edgeID, bool isUP)
+void Graph::set_state(int edge_id, bool new_state)
 {
-    edges[edgeID].isUP = isUP;
+    edges_[edge_id].is_up = new_state;
 }

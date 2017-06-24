@@ -15,20 +15,21 @@
 
 class Backtracker {
     
-    Graph& G;
-    int baseDiam;
-    int level;
-    std::vector< std::vector<int> > data;
-    bool hasExecuted;
+    Graph& G_;
+    int base_diam_, level_;
+    std::vector< std::vector<int> > data_;
+    bool executed_;
     
     void recurse(int level);
 
 public:
 
+    Backtracker(Graph& G);
     Backtracker(Graph& G, int level);
+    Backtracker(Graph& G, int level, int diam);
 
     void execute();
-    std::vector< std::vector<int> > getCoefficients();
+    std::vector< std::vector<int> > get_coefficients();
     
 };
 

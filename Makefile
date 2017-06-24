@@ -1,6 +1,6 @@
 CXX = g++
 CC = g++
-CXXFLAGS = -g -std=c++11 -Wall
+CXXFLAGS = -g -std=c++11 -Wall #-D_DEBUG_BT
 
 Main: Graph.o Backtracker.o
 

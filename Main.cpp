@@ -24,18 +24,18 @@ int main()
 
     Graph g(5, 2, terminals, edges);
 
-    cout << g.getDiameter() << endl;
+    cout << g.get_diameter() << endl;
 
     for (int i = 0; i <= 6; i++)
-        cout << g.getDiameter(i) << endl;
+        cout << g.get_diameter(i) << endl;
     
-    Backtracker bt(g, 0);
+    Backtracker bt(g, 0, 1);
     bt.execute();
     cout << "Finished" << endl;
-    std::vector< std::vector<int> > coeff = bt.getCoefficients();
+    std::vector< std::vector<int> > coeff = bt.get_coefficients();
 
-    for (int d = 0; d < g.getNodes(); d++) {
-        for (int e = 0; e <= g.getEdges(); e++)
+    for (int d = 0; d < coeff.size(); d++) {
+        for (int e = 0; e <= g.get_edges(); e++)
             cout << coeff[d][e] << " ";
         cout << endl;
     }
