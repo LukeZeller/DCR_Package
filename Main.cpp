@@ -20,9 +20,10 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
+    /**
     vector< pair<int, int> > edges = {{3, 4}, {1, 2}, {3, 1}, {2, 0}, {1, 0}, {4, 2}};
     vector<int> terminals = {0, 4};
-/**
+
     Graph g(5, 2, terminals, edges);
 
     cout << g.get_diameter() << endl;
@@ -40,18 +41,27 @@ int main(int argc, char **argv)
             cout << coeff[d][e] << " ";
         cout << endl;
     }
-*/
-    Graph g(5, 2, terminals, edges);
-
-    MPIHandler mh(argc, argv, g);
+    */
+    vector< pair<int, int> > edges = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5},
+                                      {0, 6}, {0, 7}, {0, 8}, {9, 2}, {9, 3},
+                                      {9, 4}, {9, 5}, {9, 6}, {1, 2}, {1, 3},
+                                      {2, 4}, {3, 7}};
+    vector<int> terminals = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    
+    Graph g(10, 10, terminals, edges);
+    
+    MPIHandler mh(argc, argv, g, 9);
     mh.execute();
+
     auto coeff = mh.get_coefficients();
+
     if (mh.is_root())
         for (int d = 0; d < coeff.size(); d++) {
+            int s = 0;
             for (int e = 0; e <= g.get_edges(); e++)
-                cout << coeff[d][e] << " ";
-            cout << endl;
+                s += coeff[d][e];
+            cout << ((double) s) / (1 << g.get_edges()) << endl;
         }
-
+    
     return 0;
 }
