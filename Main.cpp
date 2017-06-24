@@ -12,16 +12,17 @@
 #include <cstdlib>
 #include <vector>
 #include <utility>
-#include "Graph.h"
-#include "Backtracker.h"
+#include "graph.h"
+#include "backtracker.h"
+#include "mpihandler.h"
 
 using namespace std;
 
-int main()
+int main(int argc, char **argv)
 {
     vector< pair<int, int> > edges = {{3, 4}, {1, 2}, {3, 1}, {2, 0}, {1, 0}, {4, 2}};
     vector<int> terminals = {0, 4};
-
+/**
     Graph g(5, 2, terminals, edges);
 
     cout << g.get_diameter() << endl;
@@ -32,13 +33,17 @@ int main()
     Backtracker bt(g, 0, 1);
     bt.execute();
     cout << "Finished" << endl;
-    std::vector< std::vector<int> > coeff = bt.get_coefficients();
 
+    std::vector< std::vector<int> > coeff = bt.get_coefficients();
     for (int d = 0; d < coeff.size(); d++) {
         for (int e = 0; e <= g.get_edges(); e++)
             cout << coeff[d][e] << " ";
         cout << endl;
     }
+*/
+    Graph g2(5, 2, terminals, edges);
+
+    mpi_exec(argc, argv, g2, 0);
     
     return 0;
 }

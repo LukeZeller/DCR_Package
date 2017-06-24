@@ -8,7 +8,7 @@
 
 #include <algorithm>
 #include <queue>
-#include "Graph.h"
+#include "graph.h"
 
 Edge::Edge(int v0, int v1)
     : v0(v0)

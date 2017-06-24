@@ -11,7 +11,7 @@
 #ifndef _BACKTRACK_H
 #define _BACKTRACK_H
 
-#include "Graph.h"
+#include "graph.h"
 
 class Backtracker {
     

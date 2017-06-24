@@ -17,7 +17,7 @@
 #endif
 
 #include <algorithm>
-#include "Backtracker.h"
+#include "backtracker.h"
 
 /** Free functions used locally as helpers */
 static int combination(int N, int K)
@@ -53,7 +53,7 @@ void Backtracker::recurse(int curr_level)
     
     int num_up = G_.get_num_up();
 
-    if (curr_level == 0 || !G_.is_up(curr_level - 1))
+    if (curr_level == level_ || !G_.is_up(curr_level - 1))
         data_[std::max(d - base_diam_, 0)][num_up]++;
 
     int d_base = G_.get_diameter(curr_level);
@@ -91,5 +91,11 @@ std::vector< std::vector<int> > Backtracker::get_coefficients()
         for (int e = 0; e < E + 1; e++)
             data_[d][e] += data_[d - 1][e];
 
-    return data_;
+    std::vector< std::vector<int> > coeff(base_diam_,
+                                          std::vector<int>(E + 1));
+
+    for (auto poly : data_)
+        coeff.push_back(poly);
+
+    return coeff;
 }
