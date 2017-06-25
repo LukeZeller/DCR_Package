@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     
     Graph g(10, 10, terminals, edges);
     
-    MPIHandler mh(argc, argv, g, 9);
+    MPIHandler mh(argc, argv, g, 1);
     mh.execute();
 
     auto coeff = mh.get_coefficients();
