@@ -67,7 +67,7 @@ void MPIHandler::execute()
     int recv_coeff_buf[n][e + 1];
 
     MPI_Allreduce(&send_coeff_buf, &recv_coeff_buf, n * (e + 1),
-               MPI_INT, MPI_SUM, MPI_COMM_WORLD);
+                  MPI_INT, MPI_SUM, MPI_COMM_WORLD);
 
     for (int i = 0; i < n; i++)
         for (int j = 0; j <= e; j++)

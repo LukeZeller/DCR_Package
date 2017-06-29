@@ -8,7 +8,7 @@
 */
 
 #include <iostream>
-//#include <fstream>
+#include <fstream>
 #include <cstdlib>
 #include <vector>
 #include <utility>
@@ -17,6 +17,25 @@
 #include "mpihandler.h"
 
 using namespace std;
+
+Graph input_graph(string in)
+{
+    ifstream fin(in);
+
+    int N, K, E;
+    fin >> N >> K >> E;
+
+    vector<int> terminals(K);
+    vector< pair<int, int> > edges(E);
+
+    for (int i = 0; i < K; i++)
+        fin >> terminals[i];
+
+    for (int i = 0; i < E; i++)
+        fin >> edges[i].first >> edges[i].second;
+
+    return Graph(N, K, terminals, edges);
+}
 
 int main(int argc, char **argv)
 {
