@@ -10,11 +10,11 @@
 #ifndef _BACKTRACK_H
 #define _BACKTRACK_H
 
-#include "graph.h"
+#include "network.h"
 
 class Backtracker {
     
-    Graph& G_;
+    Network& NG_;
     int base_diam_, level_;
     std::vector< std::vector<int> > data_;
     bool executed_;
@@ -23,13 +23,13 @@ class Backtracker {
 
 public:
 
-    Backtracker(Graph& G);
-    Backtracker(Graph& G, int level);
-    Backtracker(Graph& G, int level, int diam);
+    Backtracker(Network& NG);
+    Backtracker(Network& NG, int level);
+    Backtracker(Network& NG, int level, int diam);
 
     void execute();
     std::vector< std::vector<int> > get_coefficients();
-    
+
 };
 
 #endif

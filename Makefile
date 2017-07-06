@@ -2,13 +2,17 @@ CXX = mpic++
 CC = mpic++
 CXXFLAGS = -g -std=c++11 -Wall #-D_DEBUG_BT
 
-Main: graph.o backtracker.o mpihandler.o
+Main: network.o graph.o backtracker.o mpihandler.o
 
-Main.o: graph.h backtracker.h mpihandler.h
+Main.o: network.h backtracker.h mpihandler.h
+
+network.o: network.h graph.h
 
 graph.o: graph.h
 
-backtracker.o: backtracker.h graph.h
+mpihandler.o: mpihandler.h backtracker.h
+
+backtracker.o: backtracker.h network.h
 
 clean:
 	rm -f *.o Main

@@ -11,19 +11,19 @@
 #define _MPIHANDLER_H
 
 #include <vector>
-#include "graph.h"
+#include "network.h"
 #include "mpi.h"
 
 class MPIHandler
 {
-    Graph& G_;
+    Network& NG_;
     int diam_;
     std::vector< std::vector<int> > coeffs_;
     int p_count_, rank_;
 
 public:
-    MPIHandler(int argc, char **argv, Graph& G);
-    MPIHandler(int argc, char **argv, Graph& G, int diam);
+    MPIHandler(int argc, char **argv, Network& NG);
+    MPIHandler(int argc, char **argv, Network& NG, int diam);
     ~MPIHandler();
 
     void execute();

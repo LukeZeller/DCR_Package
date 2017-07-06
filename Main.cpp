@@ -12,13 +12,13 @@
 #include <cstdlib>
 #include <vector>
 #include <utility>
-#include "graph.h"
+#include "network.h"
 #include "backtracker.h"
 #include "mpihandler.h"
 
 using namespace std;
 
-Graph input_graph(string in)
+Network input_net(string in)
 {
     ifstream fin(in);
 
@@ -34,7 +34,7 @@ Graph input_graph(string in)
     for (int i = 0; i < E; i++)
         fin >> edges[i].first >> edges[i].second;
 
-    return Graph(N, K, terminals, edges);
+    return Network(N, K, terminals, edges);
 }
 
 int main(int argc, char **argv)
@@ -67,7 +67,7 @@ int main(int argc, char **argv)
                                       {2, 4}, {3, 7}};
     vector<int> terminals = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     
-    Graph g(10, 10, terminals, edges);
+    Network g(10, 10, terminals, edges);
     
     MPIHandler mh(argc, argv, g, 1);
     mh.execute();

@@ -10,13 +10,13 @@
 #include "backtracker.h"
 #include "mpihandler.h"
 
-MPIHandler::MPIHandler(int argc, char **argv, Graph& G)
-    : MPIHandler(argc, argv, G, 0) {}
+MPIHandler::MPIHandler(int argc, char **argv, Network& NG)
+    : MPIHandler(argc, argv, NG, 0) {}
 
-MPIHandler::MPIHandler(int argc, char **argv, Graph& G, int diam)
-    : G_(G)
+MPIHandler::MPIHandler(int argc, char **argv, Network& NG, int diam)
+    : NG_(NG)
     , diam_(diam)
-    , coeffs_(G.get_nodes(), std::vector<int>(G.get_edges() + 1))
+    , coeffs_(NG.get_nodes(), std::vector<int>(NG.get_edges() + 1))
     , p_count_()
     , rank_()
 {
@@ -40,7 +40,7 @@ void MPIHandler::execute()
 
         if (r_itr <= p_itr_new) {
             p_itr = p_itr_new;
-            G_.set_state(level, false);
+            NG_.set_state(level, false);
         }
         else {
             r_itr -= p_itr_new;
@@ -50,13 +50,13 @@ void MPIHandler::execute()
         level++;
     }
 
-    Backtracker bt(G_, level, diam_);
+    Backtracker bt(NG_, level, diam_);
     bt.execute();
 
     auto coeff = bt.get_coefficients();
 
-    int n = G_.get_nodes(),
-        e = G_.get_edges();
+    int n = NG_.get_nodes(),
+        e = NG_.get_edges();
 
     int send_coeff_buf[n][e + 1];
     
