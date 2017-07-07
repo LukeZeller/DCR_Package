@@ -7,6 +7,9 @@
    Min-Cost flow on unit-capacity, unit-cost directed network.
 **/
 
+#ifndef _EDGE_REMOVAL_H
+#define _EDGE_REMOVAL_H
+
 #include <vector>
 #include "graph.h"
 
@@ -23,3 +26,5 @@ bool add_path(Graph& res, std::vector<int>& cost);
 bool reduce_cycle(Graph& res, std::vector<int>& cost);
 
 void flip_edge(Graph& G, int edge_id);
+
+#endif

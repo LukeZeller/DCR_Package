@@ -16,6 +16,8 @@
 #include "backtracker.h"
 #include "mpihandler.h"
 
+#include "edge_removal.h"
+
 using namespace std;
 
 Network input_net(string in)
@@ -61,6 +63,8 @@ int main(int argc, char **argv)
         cout << endl;
     }
     */
+
+    /**
     vector< pair<int, int> > edges = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5},
                                       {0, 6}, {0, 7}, {0, 8}, {9, 2}, {9, 3},
                                       {9, 4}, {9, 5}, {9, 6}, {1, 2}, {1, 3},
@@ -81,6 +85,15 @@ int main(int argc, char **argv)
                 s += coeff[d][e];
             cout << ((double) s) / (1 << g.get_edges()) << endl;
         }
+    */
+    
+    vector< pair<int, int> > e = {{0, 1}, {1, 0}, {1, 2}, {2, 1}, {2, 3}, {3, 2},
+                                  {3, 0}, {0, 3}, {0, 2}, {2, 0}, {1, 3}, {3, 1}};
+    Graph g(4, e);
+    cout << "test" << endl;
+    vector<int> d = get_edge_distances(g, 0, 1);
+    for (int i = 0; i < d.size(); i++)
+        cout << d[i] << endl;
     
     return 0;
 }

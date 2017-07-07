@@ -25,6 +25,7 @@ struct Graph {
     std::vector< std::vector<int> > incident_id_list;
     
     Graph(int nodes, std::vector< std::pair<int, int> > edge_list);
+    void print_graph();
 };
 
 #endif

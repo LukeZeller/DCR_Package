@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <queue>
+#include <iostream>
 #include "graph.h"
 
 Edge::Edge(int v0, int v1)
@@ -25,11 +26,25 @@ int Edge::other(int v) {
 Graph::Graph(int nodes, std::vector< std::pair<int, int> > edge_list)
     : N(nodes)
     , edges()
-    , incident_id_list(edge_list.size())
+    , incident_id_list(N)
 {
     for (int i = 0; i < edge_list.size(); i++) {
         edges.emplace_back(edge_list[i].first, edge_list[i].second);
-        incident_id_list[edge_list[i].first].push_back(i);
         incident_id_list[edge_list[i].second].push_back(i);
+    }
+}
+
+void Graph::print_graph()
+{
+    std::cout << "---Printing Graph with " << N << " vertices---" << std::endl;
+    for (int i = 0; i < edges.size(); i++) {
+        std::cout << "--Edge " << i << ": " << edges[i].v0
+                  << " " << edges[i].v1 << std::endl;
+    }
+    for (int i = 0; i < N; i++) {
+        std::cout << "--Edges incident at vertex " << i << " :";
+        for (int id : incident_id_list[i])
+            std::cout << id << " ";
+        std::cout << std::endl;
     }
 }
