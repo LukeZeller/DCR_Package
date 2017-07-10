@@ -1,20 +1,21 @@
-CXX = mpic++
-CC = mpic++
-CXXFLAGS = -g -std=c++11 -Wall -D_DEBUG_ER
+CXX := mpic++
+CC := mpic++
+CXXFLAGS := -g -std=c++11 -Wall -D_DEBUG_ER
 
-Main: network.o graph.o backtracker.o mpihandler.o edge_removal.o
+SRCEXT = cpp
+SRCDIR = src
+BUILDDIR = build
+TARGET = bin/Main
 
-Main.o: network.h backtracker.h mpihandler.h edge_removal.h
+SOURCES = $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+OBJECTS := $(patsubst $(SRCDIR)/%, $(BUILDDIR)/%, $(SOURCES:.$(SRCEXT)=.o))
 
-network.o: network.h graph.h
+$(TARGET): $(OBJECTS)
+	$(CC) -o $@ $^
 
-graph.o: graph.h
-
-backtracker.o: backtracker.h network.h
-
-mpihandler.o: mpihandler.h backtracker.h
-
-edge_removal.o: edge_removal.h graph.h
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 clean:
-	rm -f *.o Main
+	rm -f $(BUILDDIR)/*.o $(TARGET)
+.PHONY: clean

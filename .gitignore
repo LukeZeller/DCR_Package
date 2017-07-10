@@ -1,0 +1,3 @@
+# Do not add build files or compiled executables
+bin/*
+build/*

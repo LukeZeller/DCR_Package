@@ -22,10 +22,10 @@
 
 std::vector<int> get_edge_distances(const Graph& G, int v0, int v1)
 {
-    std::vector<int> dists(G.edges.size());
+    std::vector<int> dists(G.num_edges());
     Graph G_exp = expand_graph(G);
     
-    for (int id = 0; id < G.edges.size(); id++) {
+    for (int id = 0; id < G.num_edges(); id++) {
         Graph G_flow = add_st(G_exp, G.edges[id].v0, G.edges[id].v1,
                               v0 + G.N, v1 + G.N);
         //G_flow.print_graph();
@@ -44,7 +44,7 @@ Graph expand_graph(const Graph& G)
 
     for (int i = 0; i < G.N; i++) {
         G_new.edges.emplace_back(i, i + G.N);
-        G_new.incident_id_list.push_back({G_new.edges.size() - 1});
+        G_new.incident_id_list.push_back({G_new.num_edges() - 1});
     }
     return G_new;
 }
@@ -55,16 +55,16 @@ Graph add_st(const Graph& G, int s0, int s1, int t0, int t1)
     G_new.N += 2;
 
     G_new.edges.emplace_back(G.N, s0);
-    G_new.incident_id_list[s0].push_back(G_new.edges.size() - 1);
+    G_new.incident_id_list[s0].push_back(G_new.num_edges() - 1);
 
     G_new.edges.emplace_back(G.N, s1);
-    G_new.incident_id_list[s1].push_back(G_new.edges.size() - 1);
+    G_new.incident_id_list[s1].push_back(G_new.num_edges() - 1);
 
     G_new.edges.emplace_back(t0, G.N + 1);
     G_new.edges.emplace_back(t1, G.N + 1);
     G_new.incident_id_list.push_back({});
     G_new.incident_id_list.push_back(
-        {G_new.edges.size() - 2, G_new.edges.size() - 1});
+        {G_new.num_edges() - 2, G_new.num_edges() - 1});
 
     return G_new;
 }
@@ -72,7 +72,7 @@ Graph add_st(const Graph& G, int s0, int s1, int t0, int t1)
 int find_mcf(const Graph& G)
 {
     Graph G_res(G);
-    std::vector<int> cost(G.edges.size(), 1);
+    std::vector<int> cost(G.num_edges(), 1);
     
     while (add_path(G_res, cost)) {G_res.print_graph();}
     //std::cout << "derp" << std::endl;
@@ -129,7 +129,7 @@ bool reduce_cycle(Graph& res, std::vector<int>& cost)
 
     int v = -1;
     for (int itr = 0; itr < res.N; itr++)
-        for (int id = 0; id < res.edges.size(); id++)
+        for (int id = 0; id < res.num_edges(); id++)
             if (dist[res.edges[id].v1] > dist[res.edges[id].v0] + cost[id]) {
                 dist[res.edges[id].v1] = dist[res.edges[id].v0] + cost[id];
                 pred[res.edges[id].v1] = id;
