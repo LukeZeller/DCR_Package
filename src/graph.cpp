@@ -24,32 +24,35 @@ int Edge::other(int v) const
     return -1;
 }
 
-Graph::Graph(int nodes, std::vector< std::pair<int, int> > edge_list)
-    : N(nodes)
-    , edges()
-    , incident_id_list(N)
+Graph::Graph(int nodes, std::vector< std::pair<int, int> > edge_list,
+             bool is_undirected)
+    : N_(nodes)
+    , edges_()
+    , incident_id_list_(N_)
 {
     for (int i = 0; i < (int) edge_list.size(); i++) {
-        edges.emplace_back(edge_list[i].first, edge_list[i].second);
-        incident_id_list[edge_list[i].second].push_back(i);
+        edges_.emplace_back(edge_list[i].first, edge_list[i].second);
+        incident_id_list_[edge_list[i].second].push_back(i);
+        if (is_undirected)
+            incident_id_list_[edge_list[i].first].push_back(i);
     }
 }
 
 int Graph::num_edges() const
 {
-    return (int) edges.size();
+    return (int) edges_.size();
 }
 
 void Graph::print_graph() const
 {
-    std::cout << "---Printing Graph with " << N << " vertices---" << std::endl;
+    std::cout << "---Printing Graph with " << N_ << " vertices---" << std::endl;
     for (int i = 0; i < num_edges(); i++) {
-        std::cout << "--Edge " << i << ": " << edges[i].v0
-                  << " " << edges[i].v1 << std::endl;
+        std::cout << "--Edge " << i << ": " << edges_[i].v0
+                  << " " << edges_[i].v1 << std::endl;
     }
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < N_; i++) {
         std::cout << "--Edges incident at vertex " << i << " :";
-        for (int id : incident_id_list[i])
+        for (int id : incident_id_list_[i])
             std::cout << id << " ";
         std::cout << std::endl;
     }

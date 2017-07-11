@@ -19,12 +19,15 @@ struct Edge {
     int other(int v) const;
 };
 
-struct Graph {
-    int N;
-    std::vector<Edge> edges;
-    std::vector< std::vector<int> > incident_id_list;
-    
-    Graph(int nodes, std::vector< std::pair<int, int> > edge_list);
+class Graph {
+public:
+    int N_;
+    std::vector<Edge> edges_;
+    std::vector< std::vector<int> > incident_id_list_;
+
+    Graph(int nodes, std::vector< std::pair<int, int> > edge_list,
+          bool is_undirected = false);
+
     int num_edges() const;
     void print_graph() const;
 };

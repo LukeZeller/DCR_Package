@@ -36,7 +36,7 @@ Network input_net(string in)
     for (int i = 0; i < E; i++)
         fin >> edges[i].first >> edges[i].second;
 
-    return Network(N, K, terminals, edges);
+    return Network(N, terminals, edges);
 }
 
 int main(int argc, char **argv)
@@ -45,48 +45,39 @@ int main(int argc, char **argv)
     vector< pair<int, int> > edges = {{3, 4}, {1, 2}, {3, 1}, {2, 0}, {1, 0}, {4, 2}};
     vector<int> terminals = {0, 4};
 
-    Graph g(5, 2, terminals, edges);
-
-    cout << g.get_diameter() << endl;
-
-    for (int i = 0; i <= 6; i++)
-        cout << g.get_diameter(i) << endl;
+    Network g(5, terminals, edges);
     
-    Backtracker bt(g, 0, 1);
+    Backtracker bt(g, 0);
     bt.execute();
-    cout << "Finished" << endl;
 
     std::vector< std::vector<int> > coeff = bt.get_coefficients();
     for (int d = 0; d < coeff.size(); d++) {
-        for (int e = 0; e <= g.get_edges(); e++)
+        for (int e = 0; e <= g.num_edges(); e++)
             cout << coeff[d][e] << " ";
         cout << endl;
     }
     */
-
-    /**
     vector< pair<int, int> > edges = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5},
                                       {0, 6}, {0, 7}, {0, 8}, {9, 2}, {9, 3},
                                       {9, 4}, {9, 5}, {9, 6}, {1, 2}, {1, 3},
                                       {2, 4}, {3, 7}};
     vector<int> terminals = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     
-    Network g(10, 10, terminals, edges);
-    
-    MPIHandler mh(argc, argv, g, 1);
-    mh.execute();
+    Network g(10, terminals, edges);
 
-    auto coeff = mh.get_coefficients();
+    Backtracker bt(g, 0, 5, 6);
+    bt.execute();
 
-    if (mh.is_root())
+    auto coeff = bt.get_coefficients();
+
+    //if (mh.is_root())
         for (int d = 0; d < coeff.size(); d++) {
             int s = 0;
-            for (int e = 0; e <= g.get_edges(); e++)
+            for (int e = 0; e <= g.num_edges(); e++)
                 s += coeff[d][e];
-            cout << ((double) s) / (1 << g.get_edges()) << endl;
+            cout << ((double) s) / (1 << g.num_edges()) << endl;
         }
-    */
-    
+    /**
     vector< pair<int, int> > e = {{0, 1}, {1, 0}, {1, 2}, {2, 1}, {2, 3}, {3, 2},
                                   {3, 0}, {0, 3}, {0, 2}, {2, 0}, {1, 3}, {3, 1}};
     Graph g(4, e);
@@ -96,4 +87,5 @@ int main(int argc, char **argv)
         cout << d[i] << endl;
     
     return 0;
+    */
 }

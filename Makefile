@@ -17,5 +17,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 clean:
-	rm -f $(BUILDDIR)/*.o $(TARGET)
+	rm -f $(SRCDIR)/*~
+	rm -f $(BUILDDIR)/*.o
+	rm -f $(TARGET)
 .PHONY: clean

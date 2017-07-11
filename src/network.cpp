@@ -10,38 +10,49 @@
 #include <queue>
 #include "network.h"
 
-Network::Network(int nodes, int num_terminals, std::vector<int> terminals,
+Network::Network(int nodes, std::vector<int> terminals,
              std::vector< std::pair<int, int> > edge_list)
-    : G_(nodes, edge_list)
+    : Graph(nodes, edge_list, true)
     , is_up_(edge_list.size(), true)
-    , K_(num_terminals)
+    , K_(terminals.size())
     , terminals_(terminals) {}
+
+Network::Network(const Graph& G, std::vector<int> terminals)
+    : Graph(G)
+    , is_up_(G.num_edges(), true)
+    , K_(terminals.size())
+    , terminals_(terminals) {}
+
+int Network::num_nodes() const
+{
+    return N_;
+}
 
 int Network::get_diameter() const
 {
-    return get_diameter(G_.num_edges());
+    return get_diameter(num_edges());
 }
 
 int Network::get_diameter(int level) const
 {
-    std::vector< std::vector<int> > dist(K_, std::vector<int>(G_.N));
+    std::vector< std::vector<int> > dist(K_, std::vector<int>(N_));
 
     for (int t_i = 0; t_i < K_; t_i++) {
         int root = terminals_[t_i];
 
-        bool visited[G_.N] = {false};
+        bool visited[N_] = {false};
         visited[root] = true;
-        
+
         std::queue<int> q;
         q.push(root);
-        
+
         while (q.size()) {
             int u = q.front();
             q.pop();
-            for (int id : G_.incident_id_list[u]) {
+            for (int id : incident_id_list_[u]) {
                 if (id >= level || !is_up_[id])
                     continue;
-                int v = G_.edges[id].other(u);
+                int v = edges_[id].other(u);
                 if (!visited[v])  {
                     dist[t_i][v] = dist[t_i][u] + 1;
                     q.push(v);
@@ -53,7 +64,7 @@ int Network::get_diameter(int level) const
             if (!visited[v])
                 return -1;
     }
-    
+
     int d = 0;
     for (int i = 0; i < K_; i++)
         for (int j = 0; j < K_; j++)
@@ -61,20 +72,10 @@ int Network::get_diameter(int level) const
     return d;
 }
 
-int Network::get_nodes() const
-{
-    return G_.N;
-}
-
-int Network::get_edges() const
-{
-    return G_.num_edges();
-}
-
-int Network::get_num_up() const
+int Network::num_up() const
 {
     int c = 0;
-    for (int i = 0; i < G_.num_edges(); i++)
+    for (int i = 0; i < num_edges(); i++)
         if (is_up_[i])
             c++;
     return c;

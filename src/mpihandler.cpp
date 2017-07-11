@@ -16,7 +16,7 @@ MPIHandler::MPIHandler(int argc, char **argv, Network& NG)
 MPIHandler::MPIHandler(int argc, char **argv, Network& NG, int diam)
     : NG_(NG)
     , diam_(diam)
-    , coeffs_(NG.get_nodes(), std::vector<int>(NG.get_edges() + 1))
+    , coeffs_(NG.num_nodes(), std::vector<int>(NG.num_edges() + 1))
     , p_count_()
     , rank_()
 {
@@ -55,11 +55,11 @@ void MPIHandler::execute()
 
     auto coeff = bt.get_coefficients();
 
-    int n = NG_.get_nodes(),
-        e = NG_.get_edges();
+    int n = NG_.num_nodes(),
+        e = NG_.num_edges();
 
     int send_coeff_buf[n][e + 1];
-    
+
     for (int i = 0; i < n; i++)
         for (int j = 0; j <= e; j++)
             send_coeff_buf[i][j] = coeff[i][j];
