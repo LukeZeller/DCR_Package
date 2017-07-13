@@ -28,6 +28,7 @@ public:
 
     int num_nodes() const;
     using Graph::num_edges;
+    using Graph::print_graph;
 
     int get_diameter() const;
     int get_diameter(int level) const;

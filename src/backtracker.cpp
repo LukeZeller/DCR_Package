@@ -84,7 +84,7 @@ void Backtracker::execute()
 
 std::vector< std::vector<int> > Backtracker::get_coefficients()
 {
-    int N = NG_.num_nodes(), E = NG_.num_edges();
+    int E = NG_.num_edges();
 
     for (int d = 1; d < max_diam_ - base_diam_ + 1; d++)
         for (int e = 0; e < E + 1; e++)

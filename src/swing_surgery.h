@@ -8,5 +8,13 @@
 
 #include "graph.h"
 
-Graph manual_swing(Graph G);
-Graph manual_swing(Graph G, int a, int b);
+class Swinger
+{
+    Graph* G_;
+    
+public:
+    Swinger(Graph* G);
+
+    void pivot_edge(int edge_id, int v_old, int v_new);
+    void swing(int v_sup, int v_sub);
+};

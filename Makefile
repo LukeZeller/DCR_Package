@@ -1,6 +1,6 @@
 CXX := mpic++
 CC := mpic++
-CXXFLAGS := -g -std=c++11 -Wall -D_DEBUG_ER
+CXXFLAGS := -g -std=c++11 -Wall # -D_DEBUG_BT
 
 SRCEXT = cpp
 SRCDIR = src

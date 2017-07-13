@@ -11,27 +11,42 @@
 #include "graph.h"
 #include "swing_surgery.h"
 
-static std::vector<int> neighbors(const Graph& G, int v)
+Swinger::Swinger(Graph* G)
+    : G_(G) {}
+
+void Swinger::pivot_edge(int edge_id, int v_old, int v_new)
 {
-    std::vector<int> neighbors;
-    auto& inc_v = G.incident_id_list_[v];
+    auto& inc_old = G_->incident_id_list_[v_old];
 
-    for (int id : inc_v)
-        neighbors.push_back(G.edges_[id].other(v));
+    inc_old.erase(std::find(inc_old.begin(), inc_old.end(), edge_id));
+    G_->incident_id_list_[v_new].push_back(edge_id);
 
-    std::sort(neighbors.begin(), neighbors.end());
-    return neighbors;
+    auto& edge = G_->edges_[edge_id];
+    if (edge.v0 == v_old)
+        edge.v0 = v_new;
+    else
+        edge.v1 = v_new;
 }
 
-Graph manual_swing(Graph G)
+void Swinger::swing(int v_sup, int v_sub)
 {
-    return manual_swing(G, G.N_ - 1, G.N_ - 2);
-}
+    std::vector<int> inc_sup = G_->incident_id_list_[v_sup],
+                     inc_sub = G_->incident_id_list_[v_sub];
 
-//TODO: Finish implementation
-Graph manual_swing(Graph G, int a, int b)
-{
-    std::vector<int> nh_a = neighbors(G, a), nh_b = neighbors(G, b);
-    //if (std::includes(nh_a.begin(), nh_a.end(), nh_b.begin(), nh_b.end());
-    return G;
+    inc_sup.pop_back();
+    inc_sup.pop_back();
+    for (int id_sup : inc_sup) {
+        if (G_->edges_[id_sup].other(v_sup) == v_sub)
+            continue;
+
+        bool is_valid = true;
+        for (int id_sub : inc_sub)
+            if (G_->edges_[id_sup].other(v_sup) == G_->edges_[id_sub].other(v_sub)) {
+                is_valid = false;
+                break;
+            }
+
+        if (is_valid)
+            pivot_edge(id_sup, v_sup, v_sub);
+    }
 }
