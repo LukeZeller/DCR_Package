@@ -75,12 +75,26 @@ int main(int argc, char **argv)
                                       {2, 4}, {3, 7}};
     vector<int> terminals = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
+    /**
+    for (int i = 0; i < 17; i++)
+        edges.emplace_back(edges[i].second, edges[i].first);
+    
+    Graph g(10, edges);
+
+    cout << g.num_edges() << endl;
+
+    vector<int> d = get_edge_distances(g, 0, 9);
+    cout << d.size() << endl;
+    for (int i = 0; i < (int) d.size(); i++)
+        cout << d[i] << endl;    
+    */
     Graph g(10, edges, true);
     Network ng(g, terminals);
     Backtracker bt(ng, 0);
     bt.execute();
     auto coeff = bt.get_coefficients();
     print_prob_test(coeff);
+    
     Swinger sw(&g);
     sw.swing(0, 9);
 
@@ -88,18 +102,17 @@ int main(int argc, char **argv)
     Backtracker bt2(ng2, 0);
     bt2.execute();
     coeff = bt2.get_coefficients();
-    print_prob_test(coeff);
-    
-    
+    print_prob_test(coeff);  
+
     /**
     vector< pair<int, int> > e = {{0, 1}, {1, 0}, {1, 2}, {2, 1}, {2, 3}, {3, 2},
                                   {3, 0}, {0, 3}, {0, 2}, {2, 0}, {1, 3}, {3, 1}};
-    Graph g(4, e);
+    Graph g2(4, e);
     cout << "test" << endl;
-    vector<int> d = get_edge_distances(g, 0, 1);
-    for (int i = 0; i < (int) d.size(); i++)
-        cout << d[i] << endl;
-    
-    return 0;
+    vector<int> d2 = get_edge_distances(g2, 0, 1);
+    for (int i = 0; i < (int) d2.size(); i++)
+        cout << d2[i] << endl;
     */
+    return 0;
+
 }

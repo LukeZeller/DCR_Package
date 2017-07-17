@@ -33,8 +33,6 @@ void Swinger::swing(int v_sup, int v_sub)
     std::vector<int> inc_sup = G_->incident_id_list_[v_sup],
                      inc_sub = G_->incident_id_list_[v_sub];
 
-    inc_sup.pop_back();
-    inc_sup.pop_back();
     for (int id_sup : inc_sup) {
         if (G_->edges_[id_sup].other(v_sup) == v_sub)
             continue;
@@ -46,7 +44,10 @@ void Swinger::swing(int v_sup, int v_sub)
                 break;
             }
 
-        if (is_valid)
+        if (is_valid) {
             pivot_edge(id_sup, v_sup, v_sub);
+            //TEMP - to force results to be consistent with Petingi's program
+            break;
+        }
     }
 }
