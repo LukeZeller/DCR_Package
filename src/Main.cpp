@@ -19,6 +19,7 @@
 #include "mpihandler.h"
 #include "network.h"
 #include "swing_surgery.h"
+#include "reliability.h"
 using namespace std;
 
 Network input_net(string in)
