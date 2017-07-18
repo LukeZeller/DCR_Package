@@ -88,12 +88,15 @@ int main(int argc, char **argv)
     for (int i = 0; i < (int) d.size(); i++)
         cout << d[i] << endl;    
     */
+   
+    int vert, edg;
+   
     Graph g(10, edges, true);
     Network ng(g, terminals);
     Backtracker bt(ng, 0);
     bt.execute();
     auto coeff = bt.get_coefficients();
-    print_prob_test(coeff);
+    // print_prob_test(coeff);
     
     Swinger sw(&g);
     sw.swing(0, 9);
@@ -101,8 +104,15 @@ int main(int argc, char **argv)
     Network ng2(g, terminals);
     Backtracker bt2(ng2, 0);
     bt2.execute();
-    coeff = bt2.get_coefficients();
-    print_prob_test(coeff);  
+    auto coeff2 = bt2.get_coefficients();
+    // print_prob_test(coeff);  
+ 
+    cout << "Enter the number of vertices: " << endl;
+    cin >> vert;
+    cout << "Enter the number of edges: " << endl;
+    cin >> edg;
+
+    d_comparison(vert, edg, coeff, coeff2); 
 
     /**
     vector< pair<int, int> > e = {{0, 1}, {1, 0}, {1, 2}, {2, 1}, {2, 3}, {3, 2},
