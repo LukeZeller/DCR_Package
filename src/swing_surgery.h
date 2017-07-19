@@ -16,5 +16,5 @@ public:
     Swinger(Graph* G);
 
     void pivot_edge(int edge_id, int v_old, int v_new);
-    void swing(int v_sup, int v_sub);
+    void swing(int v_sup, int v_sub, int max_swing_edges = 1);
 };

@@ -9,12 +9,15 @@
 #include <vector>
 #include "graph_transform.h"
 
-//TODO: Implement to/from digraph
-Graph to_digraph(Graph G)
+Graph to_digraph(cont Graph& UG)
 {
-    return G;
+    Graph DG{UG};
+    for (const Edge& edge : UG.edges_)
+        DG.edges_.emplace_back(edge.second, edge.first);
+    return DG;
 }
 
+//TODO: Implement from digraph
 Graph from_digraph(Graph G)
 {
     return G;
