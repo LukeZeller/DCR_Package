@@ -70,11 +70,17 @@ int main(int argc, char **argv)
         cout << endl;
     }
     */
-    vector< pair<int, int> > edges = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5},
-                                      {0, 6}, {0, 7}, {0, 8}, {9, 2}, {9, 3},
-                                      {9, 4}, {9, 5}, {9, 6}, {1, 2}, {1, 3},
-                                      {2, 4}, {3, 7}};
-    vector<int> terminals = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    /*
+    vector< pair<int, int> > edges_9_14 = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {1, 5},
+                                          {4, 5}, {2, 6}, {4, 6}, {7, 4}, {7, 3},
+                                          {5, 6}, {6, 7}, {8, 4}, {8, 3}};
+    */
+    vector< pair<int, int> > edges_11_17 = {{0, 1}, {0, 2}, {0, 5}, {0, 7}, {0, 5},
+                                            {8, 5}, {8, 7}, {8, 9}, {9, 4}, {1, 3},
+                                            {2, 3}, {6, 3}, {4, 3}, {4, 6}, {4, 5},
+                                            {5, 10}, {7, 10}};
+
+    vector<int> terminals = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     /**
     for (int i = 0; i < 17; i++)
@@ -92,7 +98,7 @@ int main(int argc, char **argv)
    
     int vert, edg;
    
-    Graph g(10, edges, true);
+    Graph g(11, edges_11_17, true);
     Network ng(g, terminals);
     Backtracker bt(ng, 0);
     bt.execute();
@@ -100,14 +106,27 @@ int main(int argc, char **argv)
     // print_prob_test(coeff);
     
     Swinger sw(&g);
-    sw.swing(0, 9);
+    sw.swing(0, 10);
 
     Network ng2(g, terminals);
     Backtracker bt2(ng2, 0);
     bt2.execute();
     auto coeff2 = bt2.get_coefficients();
     // print_prob_test(coeff);  
- 
+
+    for (auto j : coeff) {
+        for (int i : j)
+            cout << i << " ";
+        cout << endl;
+    }
+    cout << endl;
+    for (auto j : coeff2) {
+        for (int i : j)
+            cout << i << " ";
+        cout << endl;
+    }
+    cout << endl;
+    
     cout << "Enter the number of vertices: " << endl;
     cin >> vert;
     cout << "Enter the number of edges: " << endl;
