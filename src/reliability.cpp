@@ -38,7 +38,7 @@ int max(vector<int> d0, int size)
 }
 
 
-/*void print(vector<int> d0, int size)
+void print(vector<int> d0, int size)
 {
     ofstream d0values;
     d0values.open("d0values.txt");
@@ -51,7 +51,6 @@ int max(vector<int> d0, int size)
 
     d0values.close();
 }
-*/
 
 
 void d_comparison(int n, int e, vector< vector<int> > S_1, vector< vector<int> > S_2)
@@ -84,7 +83,7 @@ void d_comparison(int n, int e, vector< vector<int> > S_1, vector< vector<int> >
             if (R1[p_counter][d] > R2[p_counter][d])
             { 
                 d0.push_back(d + 1);
-                //break;
+                break;
             } 
          }
     }
@@ -93,7 +92,7 @@ void d_comparison(int n, int e, vector< vector<int> > S_1, vector< vector<int> >
 
     cout << "The d0 for this graph is: " << d0_value << endl;
 
-    //print(d0, 1001);
+    print(d0, 1001);
 
     all.close();
 }

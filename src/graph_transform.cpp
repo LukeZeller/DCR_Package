@@ -9,11 +9,11 @@
 #include <vector>
 #include "graph_transform.h"
 
-Graph to_digraph(cont Graph& UG)
+Graph to_digraph(const Graph& UG)
 {
     Graph DG{UG};
     for (const Edge& edge : UG.edges_)
-        DG.edges_.emplace_back(edge.second, edge.first);
+        DG.edges_.emplace_back(edge.v1, edge.v0);
     return DG;
 }
 
