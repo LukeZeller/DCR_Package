@@ -75,12 +75,18 @@ int main(int argc, char **argv)
                                           {4, 5}, {2, 6}, {4, 6}, {7, 4}, {7, 3},
                                           {5, 6}, {6, 7}, {8, 4}, {8, 3}};
     */
-    vector< pair<int, int> > edges_11_17 = {{0, 1}, {0, 2}, {0, 5}, {0, 7}, {0, 5},
+    /*vector< pair<int, int> > edges_11_17 = {{0, 1}, {0, 2}, {0, 5}, {0, 7}, {0, 5},
                                             {8, 5}, {8, 7}, {8, 9}, {9, 4}, {1, 3},
                                             {2, 3}, {6, 3}, {4, 3}, {4, 6}, {4, 5},
                                             {5, 10}, {7, 10}};
-
-    vector<int> terminals = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+   */                                         
+   vector< pair<int, int> > edges_17_30 = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5},
+                                           {0, 6}, {0, 7}, {0, 8}, {0, 9}, {0, 10},
+                                           {0, 11}, {0, 12}, {0, 13}, {0, 14}, {0, 15},
+                                           {16, 2}, {16, 3}, {16, 4}, {16, 5}, {16, 6},
+                                           {16, 7}, {16, 8}, {16, 9}, {16, 10}, {1, 2},
+                                           {3, 4}, {5, 6}, {7, 8}, {9, 10}, {11, 12}};
+    vector<int> terminals = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
 
     /**
     for (int i = 0; i < 17; i++)
@@ -98,7 +104,7 @@ int main(int argc, char **argv)
    
     int vert, edg;
    
-    Graph g(11, edges_11_17, true);
+    Graph g(17, edges_17_30, true);
     Network ng(g, terminals);
     Backtracker bt(ng, 0);
     bt.execute();
@@ -106,7 +112,7 @@ int main(int argc, char **argv)
     // print_prob_test(coeff);
     
     Swinger sw(&g);
-    sw.swing(0, 10);
+    sw.swing(0, 16);
 
     Network ng2(g, terminals);
     Backtracker bt2(ng2, 0);
