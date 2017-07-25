@@ -106,18 +106,18 @@ int main(int argc, char **argv)
    
     Graph g(17, edges_17_30, true);
     Network ng(g, terminals);
-    Backtracker bt(ng, 0);
-    bt.execute();
-    auto coeff = bt.get_coefficients();
+    MPIHandler mh(argc, argv, ng, 16);
+    mh.execute();
+    auto coeff = mh.get_coefficients();
     // print_prob_test(coeff);
     
     Swinger sw(&g);
     sw.swing(0, 16);
 
     Network ng2(g, terminals);
-    Backtracker bt2(ng2, 0);
-    bt2.execute();
-    auto coeff2 = bt2.get_coefficients();
+    MPIHandler mh2(argc, argv, ng2, 16);
+    mh2.execute();
+    auto coeff2 = mh2.get_coefficients();
     // print_prob_test(coeff);  
 
     for (auto j : coeff) {
